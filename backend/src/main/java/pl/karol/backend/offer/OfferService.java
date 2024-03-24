@@ -42,4 +42,17 @@ public class OfferService {
     }
 
 
+    public OfferDto updateOffer(Integer id, OfferDto offerDto) {
+        Offer offer = offerRepository.findById(id).orElseThrow();
+        offer.setFirstname(offerDto.getFirstname());
+        offer.setLastname(offerDto.getLastname());
+        offer.setSpecialization(offerDto.getSpecialization());
+        offer.setContent(offerDto.getContent());
+        offer.setCreatedAt(offerDto.getCreatedAt());
+        return mapToDto(offerRepository.save(offer));
+    }
+
+    public void deleteOffer(Integer id) {
+        offerRepository.deleteById(id);
+    }
 }

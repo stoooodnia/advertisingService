@@ -3,10 +3,7 @@ package pl.karol.backend.offer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -22,4 +19,19 @@ public class OfferController {
             @RequestParam(value="size", defaultValue="9", required = false) int size) {
         return ResponseEntity.ok(offerService.getOffers(page, size));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OfferDto> updateOffer(
+            @PathVariable Integer id,
+            @RequestBody OfferDto offerDto) {
+        return ResponseEntity.ok(offerService.updateOffer(id, offerDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOffer(
+            @PathVariable Integer id) {
+        offerService.deleteOffer(id);
+        return ResponseEntity.ok().build();
+    }
+
 }
