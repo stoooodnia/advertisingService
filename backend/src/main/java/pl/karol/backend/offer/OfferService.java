@@ -44,15 +44,29 @@ public class OfferService {
 
     public OfferDto updateOffer(Integer id, OfferDto offerDto) {
         Offer offer = offerRepository.findById(id).orElseThrow();
-        offer.setFirstname(offerDto.getFirstname());
-        offer.setLastname(offerDto.getLastname());
-        offer.setSpecialization(offerDto.getSpecialization());
-        offer.setContent(offerDto.getContent());
-        offer.setCreatedAt(offerDto.getCreatedAt());
+        offer = Offer.builder()
+                .id(offer.getId())
+                .firstname(offerDto.getFirstname())
+                .lastname(offerDto.getLastname())
+                .specialization(offerDto.getSpecialization())
+                .content(offerDto.getContent())
+                .createdAt(offerDto.getCreatedAt())
+                .build();
         return mapToDto(offerRepository.save(offer));
     }
 
     public void deleteOffer(Integer id) {
         offerRepository.deleteById(id);
+    }
+
+    public OfferDto createOffer(OfferDto offerDto) {
+        Offer offer = Offer.builder()
+                .firstname(offerDto.getFirstname())
+                .lastname(offerDto.getLastname())
+                .specialization(offerDto.getSpecialization())
+                .content(offerDto.getContent())
+                .createdAt(offerDto.getCreatedAt())
+                .build();
+        return mapToDto(offerRepository.save(offer));
     }
 }

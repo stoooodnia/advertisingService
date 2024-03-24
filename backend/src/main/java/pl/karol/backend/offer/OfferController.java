@@ -20,6 +20,12 @@ public class OfferController {
         return ResponseEntity.ok(offerService.getOffers(page, size));
     }
 
+    @PostMapping("/")
+    public ResponseEntity<OfferDto> createOffer(
+            @RequestBody OfferDto offerDto) {
+        return ResponseEntity.ok(offerService.createOffer(offerDto));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<OfferDto> updateOffer(
             @PathVariable Integer id,
