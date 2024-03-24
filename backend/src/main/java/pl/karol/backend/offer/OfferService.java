@@ -30,16 +30,6 @@ public class OfferService {
                 .build();
     }
 
-    private OfferDto mapToDto(Offer offer) {
-        return OfferDto.builder()
-                .id(offer.getId())
-                .firstname(offer.getFirstname())
-                .lastname(offer.getLastname())
-                .specialization(offer.getSpecialization())
-                .content(offer.getContent())
-                .createdAt(offer.getCreatedAt())
-                .build();
-    }
 
 
     public OfferDto updateOffer(Integer id, OfferDto offerDto) {
@@ -68,5 +58,15 @@ public class OfferService {
                 .createdAt(offerDto.getCreatedAt())
                 .build();
         return mapToDto(offerRepository.save(offer));
+    }
+    private OfferDto mapToDto(Offer offer) {
+        return OfferDto.builder()
+                .id(offer.getId())
+                .firstname(offer.getFirstname())
+                .lastname(offer.getLastname())
+                .specialization(offer.getSpecialization())
+                .content(offer.getContent())
+                .createdAt(offer.getCreatedAt())
+                .build();
     }
 }
