@@ -29,14 +29,16 @@
         </svg>
         </div>
         <nav class="flex flex-col justify-start gap-1 h-full pt-2">
-            <RouteLink icon="fa-solid fa-shop" label="Home" to="/home" :active=true />
-            <RouteLink icon="user" label="Profile" to="/profile" />
-            <RouteLink icon="cog" label="Settings" to="/settings" />
+            <RouteLink icon="fa-solid fa-shop" label="Ogłoszenia" to="/" :active=true />
+            <RouteLink icon="fa-solid fa-briefcase" label="Specjalizacje" to="/specializacje" :active="false"/>
         </nav>    
     </div>
 </template>
 
 <script lang="ts">
+
+// TODO: set active state of the RouteLink component
+
 import { defineComponent } from 'vue'
 import RouteLink from '../../components/RouteLink/RouteLink.vue'
 
