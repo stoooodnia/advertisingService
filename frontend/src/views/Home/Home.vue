@@ -1,5 +1,5 @@
 <template>
-    <Navbar/>
+    <Navbar :route="$route" />
     <div>
 
     </div>

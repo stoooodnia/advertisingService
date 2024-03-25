@@ -29,8 +29,8 @@
         </svg>
         </div>
         <nav class="flex flex-col justify-start gap-1 h-full pt-2">
-            <RouteLink icon="fa-solid fa-shop" label="Ogłoszenia" to="/" :active=true />
-            <RouteLink icon="fa-solid fa-briefcase" label="Specjalizacje" to="/specializacje" :active="false"/>
+            <RouteLink icon="fa-solid fa-shop" label="Ogłoszenia" to="/" :active="page === 'home'" />
+            <RouteLink icon="fa-solid fa-briefcase" label="Specjalizacje" to="/specializacje" :active="page === 'specializations'"/>
         </nav>    
     </div>
 </template>
@@ -46,5 +46,16 @@ export default defineComponent({
     components: {
         RouteLink
     },
+    props: {
+        route: {
+            type: Object,
+            required: true
+        }
+    },
+    data() {
+        return {
+            page: this.route.name,
+        }
+    }
 })
 </script>
