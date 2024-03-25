@@ -16,6 +16,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+    private static final String[] WHITE_LIST_URLS = {
+            "/auth/**",
+    };
+
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
@@ -24,10 +28,10 @@ public class SecurityConfiguration {
         http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests(
                         (authorizeRequests) -> authorizeRequests
-                                .requestMatchers("/api/auth/**")
+                                .requestMatchers("/**")
                                 .permitAll()
-                                .anyRequest()
-                                .authenticated()
+//                                .anyRequest()
+//                                .authenticated()
                 )
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
