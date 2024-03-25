@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("api/offers")
+@RequestMapping("/offers")
 @RequiredArgsConstructor
 public class OfferController {
 
