@@ -1,21 +1,18 @@
 <template>
+    <Navbar/>
     <div>
 
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
+import Navbar from '../Navbar/Navbar.vue';
 
 export default defineComponent({
-    setup () {
-        
-
-        return {}
-    }
+    components: {
+        Navbar
+    },
+    
 })
 </script>
-
-<style scoped>
-
-</style>

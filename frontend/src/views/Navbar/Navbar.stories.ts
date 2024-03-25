@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import Navbar from "./Navbar.vue";
 
 const meta = {
-  title: "Components/Navbar",
+  title: "Views/Navbar",
   component: Navbar,
   tags: ["autodocs"],
 } satisfies Meta<typeof Navbar>;
