@@ -1,5 +1,5 @@
 <template>
-    <RouterLink :to="to" class="flex gap-[10px] w-full h-[58px] " :class="{ 'bg-my-purple text-white': !active, 'bg-white text-my-black': active }">
+    <RouterLink :to="to" class="flex gap-[10px] items-center w-full h-[58px] py-[11px] pl-[30px] pr-[52px]" :class="{ 'bg-my-purple text-white': !active, 'bg-white text-my-black': active }">
         <font-awesome-icon :icon=icon class="w-6 h-6" />
         <span>{{ label }}</span>
     </RouterLink>
