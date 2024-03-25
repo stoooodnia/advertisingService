@@ -48,6 +48,9 @@ export default defineComponent({
     },
     props: {
         route: {
+        /**
+         * The route object from vue-router
+         */
             type: Object,
             required: true
         }
