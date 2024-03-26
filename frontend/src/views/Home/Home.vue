@@ -3,6 +3,7 @@
         <Navbar :route="$route" />
         <div class="w-full">
             <Header class="h-1/6" :headerLabel="headerLabel" :button-data="buttonData"  />
+            <Offer :offerData="offer" />
         </div>
     </div>
 </template>
@@ -11,11 +12,13 @@
 import { defineComponent } from 'vue';
 import Navbar from '../Navbar/Navbar.vue';
 import Header from '../Header/Header.vue';
+import Offer from '../../components/Offer/Offer.vue';
 
 export default defineComponent({
     components: {
         Navbar,
-        Header
+        Header,
+        Offer
     },
     data() {
         return {
@@ -28,6 +31,14 @@ export default defineComponent({
                 action: () => {
                     console.log("Add new announcement")
                 },
+            },
+            offer: {
+                id: 1,
+                firstname: "Jan",
+                lastname: "Kowalski",
+                specialization: "Chirurg",
+                content: "Szukam asystenta",
+                createdAt: "2021-10-10",
             }
         }
     }

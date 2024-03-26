@@ -1,17 +1,15 @@
 <template>
-    <div>
-        <ul>
-            <li>
-                <span>{{ offerData.firstname }}</span>
-                <span>{{ offerData.lastname }}</span>
-                <span>{{ offerData.specialization }}</span>
-                <span>{{ offerData.content }}</span>
-                <span>{{ offerData.createdAt }}</span>
-            </li>
+    <div class="flex items-center justify-between h-[68px] w-full border-b-[1px]  border-my-light-gray  px-[16px]">
+        <ul class="flex flex-row justify-between w-5/6">
+            <li>{{ offerData.firstname }}</li>
+            <li>{{ offerData.lastname }}</li>
+            <li>{{ offerData.specialization }}</li>
+            <li>{{ offerData.content }}</li>
+            <li>{{ offerData.createdAt }}</li>
         </ul>
-        <div>
+        <div class="flex">
             <Button size="iconOnly" icon="fa-solid fa-pen-to-square" :action="() => {console.log('Edit offer')}" />
-            <Button size="iconOnly" icon="fa-solid fa-trash-can" :action="() => {console.log('Delete offer')}" />
+            <Button class="text-red-500" size="iconOnly" icon="fa-solid fa-trash-can" :action="() => {console.log('Delete offer')}" />
         </div>
     </div>
 </template>
