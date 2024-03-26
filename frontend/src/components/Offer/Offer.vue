@@ -10,8 +10,8 @@
             </li>
         </ul>
         <div>
-            <Button :size="iconAndLabel" :icon="fa-solid fa-penToSquare" :action="() => {console.log('Edit offer')}" />
-            <Button :size="iconOnly" :icon="fa-solid fa-trashCan" :action="() => {console.log('Delete offer')}" />
+            <Button size="iconOnly" icon="fa-solid fa-pen-to-square" :action="() => {console.log('Edit offer')}" />
+            <Button size="iconOnly" icon="fa-solid fa-trash-can" :action="() => {console.log('Delete offer')}" />
         </div>
     </div>
 </template>
@@ -21,6 +21,9 @@ import { PropType, defineComponent } from 'vue'
 import Button from '../Button/Button.vue'
 
 export default defineComponent({
+    components: {
+        Button
+    },
     props: {
         offerData: {
             /**
