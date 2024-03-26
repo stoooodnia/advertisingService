@@ -1,7 +1,7 @@
 interface ButtonData {
   size: string;
-  label: string;
+  label?: string;
   icon: string;
-  color: string;
+  color?: string;
   action: () => void;
 }

@@ -20,7 +20,7 @@ export default defineComponent({
              * The label of the button
              */
             type: String,
-            required: true
+
         },
         icon: {
             /**
@@ -31,11 +31,10 @@ export default defineComponent({
         },
         color: {
             /**
-             * The background color of the button
+             * The background color of the button, default is transparent
              */
             type: String,
             validator: (value: string) => ["black", "gray"].includes(value),
-            required: true
         },
         action: {
             /**
@@ -56,9 +55,10 @@ export default defineComponent({
             if(this.color === "black"){    
                 return `bg-my-black text-white hover:bg-my-black/80`
             }
-            else {
+            else if(this.color === "gray") {
                 return `bg-my-light-gray text-my-gray hover:bg-my-gray/50`
-            }
+            } 
+            return `bg-transparent hover:font-bold`
         }
     },
 

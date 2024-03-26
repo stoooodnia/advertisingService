@@ -10,7 +10,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Navbar from '../Navbar/Navbar.vue';
-import Header from '../../components/Header/Header.vue';
+import Header from '../Header/Header.vue';
 
 export default defineComponent({
     components: {
@@ -33,4 +33,4 @@ export default defineComponent({
     }
     
 })
-</script>
+</script>../Header/Header.vue

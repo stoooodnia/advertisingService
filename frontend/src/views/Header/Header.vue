@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import Button from '../Button/Button.vue'
+import Button from '../../components/Button/Button.vue'
 export default defineComponent({
     components: {
         Button

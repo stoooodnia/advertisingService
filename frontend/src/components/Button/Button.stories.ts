@@ -21,7 +21,7 @@ const meta = {
     },
     color: {
       control: "select",
-      options: ["black", "gray"],
+      options: ["black", "gray", "transparent"],
     },
   },
   args: {

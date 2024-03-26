@@ -10,7 +10,7 @@ const ButtonData = {
 };
 
 const meta = {
-  title: "Components/Header",
+  title: "Views/Header",
   component: Header,
   tags: ["autodocs"],
   argTypes: {
