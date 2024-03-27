@@ -15,8 +15,8 @@
                 </header>
                 <Offer v-for="offer in offers" :offerData="offer" :key="offer.id" />
             </section>
-            <footer class="flex w-full justify-end">
-                <Pagination />
+            <footer class="flex items-center h-1/6 w-full justify-end">
+                <Pagination @update:page="handlePageChange" />
             </footer>
         </div>
     </div>
@@ -28,41 +28,7 @@ import Navbar from '../Navbar/Navbar.vue';
 import Header from '../Header/Header.vue';
 import Offer from '../../components/Offer/Offer.vue';
 import Pagination from '../../components/Pagination/Pagination.vue';
-
-
-const OffersMockData = [
-    {
-        id: 1,
-        firstname: "Jan",
-        lastname: "Kowalski",
-        specialization: "Chirurg",
-        content: "Szukam asystenta",
-        createdAt: "2021-10-10",
-    },
-    {
-        id: 2,
-        firstname: "Anna",
-        lastname: "Nowak",
-        specialization: "Dermatolog",
-        content: "Zatrudnię asystenta na umowę o pracę!",
-        createdAt: "2021-10-10",
-    },
-    {
-        id: 3,
-        firstname: "Piotr",
-        lastname: "Wiśniewski",
-        specialization: "Laryngolog",
-        content: "Zatrudnię asystenta",
-        createdAt: "2021-10-10",
-    },
-    {
-        id: 4,
-        firstname: "Katarzyna",
-        lastname: "Kowalczyk",
-        specialization: "Okulista",
-        content: "Szukam asystenta",
-        createdAt: "2021-10-10",
-    }]
+import generateOffers from '../../components/Offer/OffersGenerator';
 
 
 
@@ -85,16 +51,25 @@ export default defineComponent({
                     console.log("Add new announcement")
                 },
             },
-            offers: [] as OfferData[]
+            offers: [] as OfferData[],
+            page: 1,
         }
     },
     created() {
         this.getOffers()
+
     },
     methods: {
+        handlePageChange(page: number) {
+            console.log(page);
+            
+        },
         getOffers() {
-            this.offers = OffersMockData;
-        }
+            this.offers = generateOffers(8);
+        },
+        getNextPage() {
+            this.offers = generateOffers(8);
+        },
     },
 })
-</script>../Header/Header.vue
+</script>
