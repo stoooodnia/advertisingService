@@ -61,7 +61,7 @@ export default defineComponent({
     },
     methods: {
         handlePageChange(page: number) {
-            console.log(page);
+            alert(page);
             
         },
         getOffers() {
