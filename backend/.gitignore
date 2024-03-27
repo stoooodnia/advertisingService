@@ -8,6 +8,9 @@ build/
 ### Environment
 .env
 
+### Frontend ###
+static/
+
 ### STS ###
 .apt_generated
 .classpath
