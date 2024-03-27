@@ -1,11 +1,11 @@
 <template>
-    <div class="flex items-center justify-between h-[68px] w-full border-b-[1px]  border-my-light-gray  px-[16px]">
-        <ul class="flex flex-row justify-between w-5/6">
-            <li>{{ offerData.firstname }}</li>
-            <li>{{ offerData.lastname }}</li>
-            <li>{{ offerData.specialization }}</li>
-            <li>{{ offerData.content }}</li>
-            <li>{{ offerData.createdAt }}</li>
+    <div class="flex items-center h-[68px] w-full border-b-[1px] border-my-light-gray px-[16px]">
+        <ul class="flex flex-row gap-[65px]">
+            <li class="w-[140px] truncate">{{ offerData.firstname }}</li>
+            <li class="w-[140px] truncate">{{ offerData.lastname }}</li>
+            <li class="w-[140px] truncate">{{ offerData.specialization }}</li>
+            <li class="w-[140px] truncate">{{ offerData.content }}</li>
+            <li class="w-[140px] truncate">{{ offerData.createdAt.replaceAll("-", "/") }}</li>
         </ul>
         <div class="flex">
             <Button size="iconOnly" icon="fa-solid fa-pen-to-square" :action="() => {console.log('Edit offer')}" />

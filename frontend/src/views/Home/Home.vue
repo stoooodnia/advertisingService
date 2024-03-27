@@ -5,12 +5,12 @@
             <Header class="h-1/6 " :headerLabel="headerLabel" :button-data="buttonData" />
             <section class="rounded-lg border-[1px] border-my-light-gray bg-white h-4/5 w-full"> 
                 <header class="h-[47px] w-full px-[16px] flex items-center border-b-[1px] border-my-light-gray">
-                    <ul class="flex flex-row justify-between w-5/6 text-my-gray text-[12px]">
-                        <li>Imię</li>
-                        <li>Nazwisko</li>
-                        <li>Specjalizacja</li>
-                        <li>Treść</li>
-                        <li>Data dodania</li>
+                    <ul class="flex gap-[65px] text-my-gray text-[12px] ">
+                        <li class="w-[140px] ">Imię</li>
+                        <li class="w-[140px] ">Nazwisko</li>
+                        <li class="w-[140px] ">Specjalizacja</li>
+                        <li class="w-[140px]">Treść</li>
+                        <li class="w-[140px]">Data dodania</li>
                     </ul>
                 </header>
                 <Offer v-for="offer in offers" :offerData="offer" :key="offer.id" />
@@ -41,7 +41,7 @@ const OffersMockData = [
         firstname: "Anna",
         lastname: "Nowak",
         specialization: "Dermatolog",
-        content: "Zatrudnię asystenta",
+        content: "Zatrudnię asystenta na umowę o pracę!",
         createdAt: "2021-10-10",
     },
     {
