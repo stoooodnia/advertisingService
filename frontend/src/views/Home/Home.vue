@@ -6,15 +6,18 @@
             <section class="rounded-lg border-[1px] border-my-light-gray bg-white h-4/5 w-full"> 
                 <header class="h-[47px] w-full px-[16px] flex items-center border-b-[1px] border-my-light-gray">
                     <ul class="flex gap-[65px] text-my-gray text-[12px] ">
-                        <li class="w-[140px] ">Imię</li>
-                        <li class="w-[140px] ">Nazwisko</li>
-                        <li class="w-[140px] ">Specjalizacja</li>
+                        <li class="w-[140px]">Imię</li>
+                        <li class="w-[140px]">Nazwisko</li>
+                        <li class="w-[140px]">Specjalizacja</li>
                         <li class="w-[140px]">Treść</li>
                         <li class="w-[140px]">Data dodania</li>
                     </ul>
                 </header>
                 <Offer v-for="offer in offers" :offerData="offer" :key="offer.id" />
             </section>
+            <footer class="flex w-full justify-end">
+                <Pagination />
+            </footer>
         </div>
     </div>
 </template>
@@ -24,7 +27,7 @@ import { defineComponent } from 'vue';
 import Navbar from '../Navbar/Navbar.vue';
 import Header from '../Header/Header.vue';
 import Offer from '../../components/Offer/Offer.vue';
-
+import Pagination from '../../components/Pagination/Pagination.vue';
 
 
 const OffersMockData = [
@@ -67,7 +70,8 @@ export default defineComponent({
     components: {
         Navbar,
         Header,
-        Offer
+        Offer,
+        Pagination
     },
     data() {
         return {

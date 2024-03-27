@@ -14,7 +14,6 @@ const meta = {
         "fa-solid fa-pen-to-square",
         "fa-solid fa-trash-can",
         "fa-solid fa-magnifying-glass",
-        "fa-solid fa-angle-down",
         "fa-solid fa-x",
       ],
     },

@@ -12,7 +12,6 @@ import {
   faPenToSquare,
   faTrashCan,
   faMagnifyingGlass,
-  faAngleDown,
   faX,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
@@ -23,7 +22,6 @@ library.add(
   faPenToSquare,
   faTrashCan,
   faMagnifyingGlass,
-  faAngleDown,
   faX,
   faPlus
 );
