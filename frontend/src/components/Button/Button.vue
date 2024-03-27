@@ -1,7 +1,7 @@
 <template>
-    <button @click="action"  class="h-[44px] w-fit rounded-md px-[20px] py-[10px] flex items-center justify-center gap-[10px] transition-colors duration-300" :class="style">
+    <button @click="action"  class="h-[44px] w-fit rounded-md p-[10px] flex items-center justify-center gap-[10px] transition-colors duration-300" :class="style">
         <font-awesome-icon v-if="iconActive" :icon="icon" class="w-6 h-6" />
-        <span v-if="labelActive"> {{ label }}</span>
+        <span v-if="labelActive" class="mr-[10px]"> {{ label }}</span>
     </button>
 </template>
 
@@ -58,7 +58,7 @@ export default defineComponent({
             else if(this.color === "gray") {
                 return `bg-my-light-gray text-my-gray hover:bg-my-gray/50`
             } 
-            return `bg-transparent hover:font-bold`
+            return `bg-transparent`
         }
     },
 

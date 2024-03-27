@@ -1,15 +1,15 @@
 <template>
-    <div class="flex items-center h-[68px] w-full border-b-[1px] border-my-light-gray px-[16px]">
-        <ul class="flex flex-row gap-[65px]">
+    <div class="flex items-center justify-between h-[68px] w-full border-b-[1px] border-my-light-gray px-[16px] ">
+        <ul class="flex flex-row gap-[65px] ">
             <li class="w-[140px] truncate">{{ offerData.firstname }}</li>
             <li class="w-[140px] truncate">{{ offerData.lastname }}</li>
             <li class="w-[140px] truncate">{{ offerData.specialization }}</li>
             <li class="w-[140px] truncate">{{ offerData.content }}</li>
             <li class="w-[140px] truncate">{{ offerData.createdAt.replaceAll("-", "/") }}</li>
         </ul>
-        <div class="flex">
-            <Button size="iconOnly" icon="fa-solid fa-pen-to-square" :action="() => {console.log('Edit offer')}" />
-            <Button class="text-red-500" size="iconOnly" icon="fa-solid fa-trash-can" :action="() => {console.log('Delete offer')}" />
+        <div class="flex ">
+            <Button class="hover:text-black/50 " size="iconOnly" icon="fa-solid fa-pen-to-square" :action="() => {console.log('Edit offer')}" />
+            <Button class="text-red-500 hover:text-red-500/50" size="iconOnly" icon="fa-solid fa-trash-can" :action="() => {console.log('Delete offer')}" />
         </div>
     </div>
 </template>
