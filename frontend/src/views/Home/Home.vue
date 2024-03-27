@@ -4,8 +4,17 @@
         <div class="w-full flex flex-col items-center px-[60px]">
             <Header class="h-1/6 " :headerLabel="headerLabel" :button-data="buttonData" />
             <section class="rounded-lg border-[1px] border-my-light-gray bg-white h-4/5 w-full"> 
+                <header class="h-[47px] w-full px-[16px] flex items-center border-b-[1px] border-my-light-gray">
+                    <ul class="flex flex-row justify-between w-5/6 text-my-gray text-[12px]">
+                        <li>Imię</li>
+                        <li>Nazwisko</li>
+                        <li>Specjalizacja</li>
+                        <li>Treść</li>
+                        <li>Data dodania</li>
+                    </ul>
+                </header>
+                <Offer v-for="offer in offers" :offerData="offer" :key="offer.id" />
             </section>
-            <Offer :offerData="offer" />
         </div>
     </div>
 </template>
@@ -15,6 +24,44 @@ import { defineComponent } from 'vue';
 import Navbar from '../Navbar/Navbar.vue';
 import Header from '../Header/Header.vue';
 import Offer from '../../components/Offer/Offer.vue';
+
+
+
+const OffersMockData = [
+    {
+        id: 1,
+        firstname: "Jan",
+        lastname: "Kowalski",
+        specialization: "Chirurg",
+        content: "Szukam asystenta",
+        createdAt: "2021-10-10",
+    },
+    {
+        id: 2,
+        firstname: "Anna",
+        lastname: "Nowak",
+        specialization: "Dermatolog",
+        content: "Zatrudnię asystenta",
+        createdAt: "2021-10-10",
+    },
+    {
+        id: 3,
+        firstname: "Piotr",
+        lastname: "Wiśniewski",
+        specialization: "Laryngolog",
+        content: "Zatrudnię asystenta",
+        createdAt: "2021-10-10",
+    },
+    {
+        id: 4,
+        firstname: "Katarzyna",
+        lastname: "Kowalczyk",
+        specialization: "Okulista",
+        content: "Szukam asystenta",
+        createdAt: "2021-10-10",
+    }]
+
+
 
 export default defineComponent({
     components: {
@@ -34,16 +81,16 @@ export default defineComponent({
                     console.log("Add new announcement")
                 },
             },
-            offer: {
-                id: 1,
-                firstname: "Jan",
-                lastname: "Kowalski",
-                specialization: "Chirurg",
-                content: "Szukam asystenta",
-                createdAt: "2021-10-10",
-            }
+            offers: [] as OfferData[]
         }
-    }
-    
+    },
+    created() {
+        this.getOffers()
+    },
+    methods: {
+        getOffers() {
+            this.offers = OffersMockData;
+        }
+    },
 })
 </script>../Header/Header.vue

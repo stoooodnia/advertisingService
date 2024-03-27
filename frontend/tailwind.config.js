@@ -7,7 +7,7 @@ export default {
         "my-purple": "#636AAF",
         "my-red": "#ff0000",
         "my-black": "#131314",
-        "my-gray": "#565656",
+        "my-gray": "#6b6b6b",
         "my-light-gray": "#DCDCDC",
       },
     },
