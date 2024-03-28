@@ -3,9 +3,9 @@
         <ul class="flex flex-row gap-[65px] ">
             <li class="w-[140px] truncate">{{ offerData.firstname }}</li>
             <li class="w-[140px] truncate">{{ offerData.lastname }}</li>
-            <li class="w-[140px] truncate">{{ offerData.specialization }}</li>
+            <li class="w-[140px] truncate">{{ offerData.specialization.label }}</li>
             <li class="w-[140px] truncate">{{ offerData.content }}</li>
-            <li class="w-[140px] truncate">{{ offerData.createdAt.replaceAll("-", "/") }}</li>
+            <li class="w-[140px] truncate">{{ offerDate }}</li>
         </ul>
         <div class="flex ">
             <Button class="hover:text-black/50 " size="iconOnly" icon="fa-solid fa-pen-to-square" :action="() => {console.log('Edit offer')}" />
@@ -29,6 +29,12 @@ export default defineComponent({
              */
             type: Object as PropType<OfferData>,
             required: true
+        }
+    },
+    data() {
+        return {
+            offerDate: this.offerData.createdAt.replaceAll("-", "/").split("T")[0],
+            offerTime: this.offerData.createdAt.split("T")[1].split(".")[0]
         }
     }
 })

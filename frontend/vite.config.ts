@@ -7,5 +7,14 @@ export default defineConfig({
     outDir: "../backend/src/main/resources/static",
     emptyOutDir: true,
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:8081/api/",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
   plugins: [vue()],
 });

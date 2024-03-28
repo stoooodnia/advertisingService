@@ -16,7 +16,7 @@
                 <Offer v-for="offer in offers" :offerData="offer" :key="offer.id" />
             </section>
             <footer class="flex items-center h-1/6 w-full justify-end">
-                <Pagination @update:page="handlePageChange" />
+                <Pagination :total=totalPages @update:page="handlePageChange"/>
             </footer>
         </div>
     </div>
@@ -29,6 +29,7 @@ import Header from '../Header/Header.vue';
 import Offer from '../../components/Offer/Offer.vue';
 import Pagination from '../../components/Pagination/Pagination.vue';
 import generateOffers from '../../components/Offer/OffersGenerator';
+import offersService from '../../services/offersService';
 
 
 
@@ -53,6 +54,7 @@ export default defineComponent({
             },
             offers: [] as OfferData[],
             page: 1,
+            totalPages: 0,
         }
     },
     created() {
@@ -65,7 +67,12 @@ export default defineComponent({
             
         },
         getOffers() {
-            this.offers = generateOffers(8);
+            offersService.getOffersDefault().then((response) => {
+                  const { content, totalPages } = response.data;
+                    this.offers = content;
+                    this.totalPages = totalPages;
+
+                })
         },
         getNextPage() {
             this.offers = generateOffers(8);

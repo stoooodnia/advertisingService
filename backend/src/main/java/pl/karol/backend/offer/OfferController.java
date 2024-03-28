@@ -6,20 +6,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/offers")
+@RequestMapping("/api/offers")
 @RequiredArgsConstructor
 public class OfferController {
 
     private final OfferService offerService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<OfferResponse> getOffers (
             @RequestParam(value="page", defaultValue="0", required=false) int page,
-            @RequestParam(value="size", defaultValue="9", required = false) int size) {
+            @RequestParam(value="size", defaultValue="8", required = false) int size) {
         return ResponseEntity.ok(offerService.getOffers(page, size));
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<OfferDto> createOffer(
             @RequestBody OfferDto offerDto) {
         return ResponseEntity.ok(offerService.createOffer(offerDto));
