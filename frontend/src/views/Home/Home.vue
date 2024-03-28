@@ -28,7 +28,7 @@ import Navbar from '../Navbar/Navbar.vue';
 import Header from '../Header/Header.vue';
 import Offer from '../../components/Offer/Offer.vue';
 import Pagination from '../../components/Pagination/Pagination.vue';
-import generateOffers from '../../components/Offer/OffersGenerator';
+// import generateOffers from '../../components/Offer/OffersGenerator';
 import offersService from '../../services/offersService';
 
 
@@ -63,7 +63,9 @@ export default defineComponent({
     },
     methods: {
         handlePageChange(page: number) {
-            alert(page);
+            const SIZE = 8;
+            this.page = page;
+            this.getPage(page, SIZE);
             
         },
         getOffers() {
@@ -74,8 +76,13 @@ export default defineComponent({
 
                 })
         },
-        getNextPage() {
-            this.offers = generateOffers(8);
+        getPage(page: number, size: number) {
+            offersService.getOffers(page-1, size).then((response) => {
+                console.log(response.data);
+                const { content, totalPages } = response.data;
+                this.offers = content;
+                this.totalPages = totalPages;
+            })
         },
     },
 })
