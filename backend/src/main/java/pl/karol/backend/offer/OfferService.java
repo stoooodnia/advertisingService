@@ -6,21 +6,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pl.karol.backend.specialization.SpecializationRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class OfferService {
 
     private final OfferRepository offerRepository;
+    private final SpecializationRepository specializationRepository;
 
     public OfferResponse getOffers(int page, int size) {
         Pageable paging = PageRequest.of(page, size);
         Page<Offer> pageResult = offerRepository.findAll(paging);
         List<Offer> listOfOffers =  pageResult.getContent();
-        List<OfferDto> content = listOfOffers.stream().map(this::mapToDto).toList();
+        List<SingleOfferDto> content = listOfOffers.stream().map(this::mapToDto).toList();
         return OfferResponse.builder()
                 .content(content)
                 .pageNo(page)
@@ -32,15 +33,17 @@ public class OfferService {
 
 
 
-    public OfferDto updateOffer(Integer id, OfferDto offerDto) {
+    public SingleOfferDto updateOffer(Integer id, OfferRequest offerRequest) {
+        var specialization = specializationRepository.findById(offerRequest.getSpecializationId()).orElseThrow();
+
         Offer offer = offerRepository.findById(id).orElseThrow();
         offer = Offer.builder()
                 .id(offer.getId())
-                .firstname(offerDto.getFirstname())
-                .lastname(offerDto.getLastname())
-                .specialization(offerDto.getSpecialization())
-                .content(offerDto.getContent())
-                .createdAt(offerDto.getCreatedAt())
+                .firstname(offerRequest.getFirstname())
+                .lastname(offerRequest.getLastname())
+                .specialization(specialization)
+                .content(offerRequest.getContent())
+                .createdAt(offerRequest.getCreatedAt())
                 .build();
         return mapToDto(offerRepository.save(offer));
     }
@@ -49,18 +52,21 @@ public class OfferService {
         offerRepository.deleteById(id);
     }
 
-    public OfferDto createOffer(OfferDto offerDto) {
+    public SingleOfferDto createOffer(OfferRequest offerRequest) {
+
+        var specialization = specializationRepository.findById(offerRequest.getSpecializationId()).orElseThrow();
+
         Offer offer = Offer.builder()
-                .firstname(offerDto.getFirstname())
-                .lastname(offerDto.getLastname())
-                .specialization(offerDto.getSpecialization())
-                .content(offerDto.getContent())
-                .createdAt(offerDto.getCreatedAt())
+                .firstname(offerRequest.getFirstname())
+                .lastname(offerRequest.getLastname())
+                .specialization(specialization)
+                .content(offerRequest.getContent())
+                .createdAt(offerRequest.getCreatedAt())
                 .build();
         return mapToDto(offerRepository.save(offer));
     }
-    private OfferDto mapToDto(Offer offer) {
-        return OfferDto.builder()
+    private SingleOfferDto mapToDto(Offer offer) {
+        return SingleOfferDto.builder()
                 .id(offer.getId())
                 .firstname(offer.getFirstname())
                 .lastname(offer.getLastname())

@@ -1,5 +1,6 @@
 package pl.karol.backend.offer;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,16 +21,18 @@ public class OfferController {
     }
 
     @PostMapping("")
-    public ResponseEntity<OfferDto> createOffer(
-            @RequestBody OfferDto offerDto) {
-        return ResponseEntity.ok(offerService.createOffer(offerDto));
+    public ResponseEntity<SingleOfferDto> createOffer(
+            @Valid
+            @RequestBody OfferRequest offerRequest) {
+        return ResponseEntity.ok(offerService.createOffer(offerRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OfferDto> updateOffer(
+    public ResponseEntity<SingleOfferDto> updateOffer(
             @PathVariable Integer id,
-            @RequestBody OfferDto offerDto) {
-        return ResponseEntity.ok(offerService.updateOffer(id, offerDto));
+            @Valid
+            @RequestBody OfferRequest offerRequest) {
+        return ResponseEntity.ok(offerService.updateOffer(id, offerRequest));
     }
 
     @DeleteMapping("/{id}")

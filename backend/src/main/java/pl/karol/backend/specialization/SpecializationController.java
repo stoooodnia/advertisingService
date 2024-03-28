@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
-@RequestMapping("/specializations")
+@RequestMapping("/api/specializations")
 @RequiredArgsConstructor
 public class SpecializationController {
 
         private final SpecializationService specializationService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<SpecializationResponse> getSpecializations() {
         return ResponseEntity.ok(specializationService.getSpecializations());
     }
