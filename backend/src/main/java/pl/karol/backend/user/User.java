@@ -2,6 +2,9 @@ package pl.karol.backend.user;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,9 +23,15 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @NotBlank(message = "First name is mandatory")
     private String firstname;
+    @NotBlank(message = "Last name is mandatory")
     private String lastname;
+    @NotBlank(message = "Email is mandatory")
+    @Email
     private String email;
+    @NotBlank(message = "Password is mandatory")
+    @Size(min=8, message = "Password must be at least 8 characters long")
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;

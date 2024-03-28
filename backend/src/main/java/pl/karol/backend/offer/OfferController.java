@@ -15,7 +15,7 @@ public class OfferController {
     @GetMapping("")
     public ResponseEntity<OfferResponse> getOffers (
             @RequestParam(value="page", defaultValue="0", required=false) int page,
-            @RequestParam(value="size", defaultValue="8", required = false) int size) {
+            @RequestParam(value="size", defaultValue="8", required=false) int size) {
         return ResponseEntity.ok(offerService.getOffers(page, size));
     }
 
