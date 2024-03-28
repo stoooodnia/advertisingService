@@ -24,8 +24,10 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @NotBlank(message = "First name is mandatory")
+    @Size(min = 2, max = 30, message = "Firstname must be between 2 and 30 characters long")
     private String firstname;
     @NotBlank(message = "Last name is mandatory")
+    @Size(min = 2, max = 30, message = "Lastname must be between 2 and 30 characters long")
     private String lastname;
     @NotBlank(message = "Email is mandatory")
     @Email
