@@ -1,9 +1,12 @@
 <template>
+    <Modal :show="showAddOffer" @update:show="showAddOffer = $event">
+        <AddOfferForm />
+    </Modal>
     <div class="flex w-screen h-screen overflow-y-hidden">
         <Navbar :route="$route" />
         <div class="w-full flex flex-col items-center px-[60px]">
             <Header class="h-1/6 " :headerLabel="headerLabel" :button-data="buttonData" />
-            <section class="rounded-lg border-[1px] border-my-light-gray bg-white h-4/5 w-full"> 
+            <section class="rounded-lg border-[1px] border-my-light-gray bg-white w-full"> 
                 <header class="h-[47px] w-full px-[16px] flex items-center border-b-[1px] border-my-light-gray">
                     <ul class="flex gap-[65px] text-my-gray text-[12px] ">
                         <li class="w-[140px]">Imię</li>
@@ -30,18 +33,21 @@ import Offer from '../../components/Offer/Offer.vue';
 import Pagination from '../../components/Pagination/Pagination.vue';
 // import generateOffers from '../../components/Offer/OffersGenerator';
 import offersService from '../../services/offersService';
-
-
+import Modal from '../../components/Modal/Modal.vue';
+import AddOfferForm from '../../components/AddOfferForm/AddOfferForm.vue';
 
 export default defineComponent({
     components: {
+        Modal,
         Navbar,
         Header,
         Offer,
-        Pagination
+        Pagination,
+        AddOfferForm
     },
     data() {
         return {
+            showAddOffer: false,
             headerLabel: "Ogłoszenia",
             buttonData: {
                 label: "Dodaj ogłoszenie",
@@ -49,7 +55,8 @@ export default defineComponent({
                 color: "black",
                 size: "iconAndLabel",
                 action: () => {
-                    console.log("Add new announcement")
+                    // @ts-ignore
+                    this.showAddOffer = true;
                 },
             },
             offers: [] as OfferData[],

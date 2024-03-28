@@ -14,6 +14,7 @@ import {
   faMagnifyingGlass,
   faX,
   faPlus,
+  faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -23,7 +24,8 @@ library.add(
   faTrashCan,
   faMagnifyingGlass,
   faX,
-  faPlus
+  faPlus,
+  faChevronDown
 );
 
 const app = createApp(App);
