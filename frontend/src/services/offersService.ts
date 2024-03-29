@@ -14,6 +14,9 @@ export default {
   getOffers(page: number, size: number) {
     return apiClient.get(`offers?page=${page}&size=${size}`);
   },
+  searchOffers(page: number, size: number, search: string) {
+    return apiClient.get(`offers/${search}?page=${page}&size=${size}`);
+  },
   postOffer(offer: OfferRequest) {
     return apiClient.post("offers", offer);
   },

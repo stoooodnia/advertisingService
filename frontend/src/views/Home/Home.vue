@@ -5,7 +5,7 @@
         <div class="w-full flex flex-col items-center px-[60px]">
             <Header class="h-1/6 " :headerLabel="headerLabel" :button-data="buttonData" />
             <section class="rounded-lg border-[1px] border-my-light-gray bg-white w-full"> 
-                <SearchBar @search="search"/>
+                <SearchBar @search="searchQuery = $event"/>
                 <div class="h-[47px] w-full px-[16px] flex items-center border-b-[1px] border-my-light-gray">
                     <ul class="flex gap-[65px] text-my-gray text-[12px] ">
                         <li class="w-[140px]">Imię</li>
@@ -65,17 +65,37 @@ export default defineComponent({
             searchQuery: "",
         }
     },
+    watch: {
+        searchQuery: {
+            handler: function() {
+                this.search(this.page, 8);
+            },
+            immediate: true,
+        }
+    },
     created() {
         this.getOffers()
 
     },
     methods: {
-        search(query: string) {
-            console.log(query);
+        search(page: number, size: number) {
+            console.log(this.searchQuery, this.offers) 
+            if (this.searchQuery === "") {
+                return;
+            }
+            offersService.searchOffers(page-1, size, this.searchQuery,).then((response) => {
+                const { content, totalPages } = response.data;
+                this.offers = content;
+                this.totalPages = totalPages;
+            })
         },
         handlePageChange(page: number) {
             const PAGE_SIZE = 8;
             this.page = page;
+            if(this.searchQuery !== "") {
+                this.search(page, PAGE_SIZE);
+                return;
+            }
             this.getPage(page, PAGE_SIZE);
             
         },
@@ -97,4 +117,4 @@ export default defineComponent({
         },
     },
 })
-</script>../AddOfferForm/AddOfferForm.vue../OfferForm/AddOfferForm.vue
+</script>
