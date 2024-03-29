@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8081/api/offers",
+  baseURL: "http://localhost:8081/api/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -9,9 +9,9 @@ const apiClient = axios.create({
 
 export default {
   getOffersDefault() {
-    return apiClient.get("");
+    return apiClient.get("offers");
   },
   getOffers(page: number, size: number) {
-    return apiClient.get(`?page=${page}&size=${size}`);
+    return apiClient.get(`offers?page=${page}&size=${size}`);
   },
 };
