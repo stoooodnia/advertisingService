@@ -66,6 +66,7 @@ export default defineComponent({
             this.detailsVisible = !this.detailsVisible
         },
         editOffer() {
+            this.detailsVisible = false
           this.showEditOffer = true
         },
         deleteOffer() {
