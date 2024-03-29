@@ -1,7 +1,7 @@
 
 <template>
   <Select >
-    <SelectTrigger class="h-[44px] border-my-light-gray rounded-xl">
+    <SelectTrigger class="h-[44px] rounded-xl focus:animate-none outline-my-black" :class="error ? 'border-red-500 border-2 animate-pulse ' : 'border-my-light-gray '">
       <SelectValue class="text-my-gray" placeholder="Wybierz specjalizację" />
     </SelectTrigger>
     <SelectContent>
@@ -32,6 +32,11 @@ export default defineComponent({
     SelectItem,
     SelectTrigger,
     SelectValue,
+  },
+  props: {
+    error: {
+      type: Boolean,
+    }
   },
   data() {
     return {
