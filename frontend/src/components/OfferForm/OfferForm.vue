@@ -80,8 +80,8 @@ export default defineComponent({
             if(this.form.content === "") {
                 this.errors.content = true
             }
-            if(this.form.specOption === "") {
-                this.errors.specOption = true
+            if(this.form.specializationId === "") {
+                this.errors.specializationId = true
             }
             if (Object.values(this.errors).some(error => error === true)){
                 return false
