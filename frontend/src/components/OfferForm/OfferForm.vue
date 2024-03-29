@@ -21,7 +21,7 @@
             </div>
             <div class="flex flex-col gap-2 relative">
                 <label class="text-[#565656] text-[14px] font-semibold" for="content">Treść ogłoszenia</label>
-                <textarea  v-model="form.content" id="content" placeholder="Wpisz treść ogłoszenia" maxlength="50" :class="errors.content ? 'border-red-500 border-2 animate-pulse ' : 'border-my-light-gray'"class="border border-my-light-gray rounded-xl p-3 h-[120px] resize-none placeholder-my-gray text-[14px] focus:animate-none outline-my-black"></textarea>
+                <textarea  v-model="form.content" id="content" placeholder="Wpisz treść ogłoszenia" maxlength="100" :class="errors.content ? 'border-red-500 border-2 animate-pulse ' : 'border-my-light-gray'"class="border border-my-light-gray rounded-xl p-3 h-[120px] resize-none placeholder-my-gray text-[14px] focus:animate-none outline-my-black"></textarea>
             </div>
             <div class="flex justify-end items-end gap-2 h-full">
                     <Button class="rounded-lg px-[16px]" :action="cancel" color="black" size="labelOnly" label="Anuluj"/>
@@ -107,6 +107,8 @@ export default defineComponent({
             }
             this.post().then(() => {
                 location.reload()
+            }).catch((error) => {
+                console.log(error.response.data.errors)
             })
         },
         post() {

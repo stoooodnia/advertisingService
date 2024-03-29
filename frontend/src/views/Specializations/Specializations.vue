@@ -1,8 +1,9 @@
 <template>
     <div class="flex w-screen h-screen overflow-y-hidden">
         <Navbar :route="$route" />
-        <div class="w-full">
+        <div class="w-full flex flex-col items-center px-[60px]">
             <Header class="h-1/6" :headerLabel="headerLabel" :button-data="buttonData"  />
+            <h2>Work in progress</h2>
         </div>
     </div>
 </template>

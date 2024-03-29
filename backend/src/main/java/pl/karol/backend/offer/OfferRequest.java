@@ -25,7 +25,7 @@ public class OfferRequest {
     private String lastname;
 
     @NotBlank(message = "Content is mandatory")
-    @Size(min = 3, max = 50, message = "Content must be between 3 and 50 characters long")
+    @Size(min = 3, max = 100, message = "Content must be between 3 and 100 characters long")
     private String content;
 
     @NotNull(message = "Created at is mandatory")
