@@ -102,9 +102,7 @@ export default defineComponent({
                 return
             }
             if(this.editOfferData) {
-                console.log("edit")
-                console.log(JSON.stringify(this.form))
-                this.close()
+                this.edit(this.editOfferData)
                 return
             }
             this.post().then(() => {
@@ -123,6 +121,30 @@ export default defineComponent({
 
             return offersService.postOffer(data).then((response) => {
                 console.log(response.data)
+            })
+        },
+        edit(editOfferData: OfferResponse) {
+            if(!this.editOfferData) {
+                return
+            }
+            // check if something has changed
+            if (this.form.firstname === editOfferData.firstname &&
+                this.form.lastname === editOfferData.lastname &&
+                this.form.content === editOfferData.content &&
+                this.form.specializationId === editOfferData.specialization.id.toString()) {
+                this.close()
+                return
+            }
+
+            const data = {
+                firstname: this.form.firstname,
+                lastname: this.form.lastname,
+                content: this.form.content,
+                specializationId: parseInt(this.form.specializationId),
+                createdAt: new Date().toISOString()
+            } 
+            return offersService.editOffer(data, editOfferData.id).then(() => {
+                location.reload()
             })
         },
         clearForm() {

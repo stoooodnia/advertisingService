@@ -17,4 +17,7 @@ export default {
   postOffer(offer: OfferRequest) {
     return apiClient.post("offers", offer);
   },
+  editOffer(offer: OfferRequest, id: number) {
+    return apiClient.put(`offers/${id}`, offer);
+  },
 };
