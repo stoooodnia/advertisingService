@@ -66,6 +66,19 @@ public class OfferService {
                 .build();
         return mapToDto(offerRepository.save(offer));
     }
+    public OfferResponse searchOffers(String search, int page, int size) {
+        Pageable paging = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Offer> pageResult = offerRepository.findByFirstnameOrLastnameOrSpecializationContaining(search, paging);
+        List<Offer> listOfOffers =  pageResult.getContent();
+        List<SingleOfferDto> content = listOfOffers.stream().map(this::mapToDto).toList();
+        return OfferResponse.builder()
+                .content(content)
+                .pageNo(page)
+                .pageSize(size)
+                .totalPages(pageResult.getTotalPages())
+                .totalElements(pageResult.getTotalElements())
+                .build();
+    }
     private SingleOfferDto mapToDto(Offer offer) {
         return SingleOfferDto.builder()
                 .id(offer.getId())
@@ -76,4 +89,5 @@ public class OfferService {
                 .createdAt(offer.getCreatedAt())
                 .build();
     }
+
 }

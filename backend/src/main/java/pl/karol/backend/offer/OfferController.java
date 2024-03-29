@@ -20,6 +20,14 @@ public class OfferController {
         return ResponseEntity.ok(offerService.getOffers(page, size));
     }
 
+    @GetMapping("/{search}")
+    public ResponseEntity<OfferResponse> searchOffers (
+            @PathVariable String search,
+            @RequestParam(value="page", defaultValue="0", required=false) int page,
+            @RequestParam(value="size", defaultValue="8", required=false) int size) {
+        return ResponseEntity.ok(offerService.searchOffers(search, page, size));
+    }
+
     @PostMapping("")
     public ResponseEntity<SingleOfferDto> createOffer(
             @Valid
