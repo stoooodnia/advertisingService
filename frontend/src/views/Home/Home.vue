@@ -35,6 +35,9 @@ import offersService from '../../services/offersService';
 import OfferForm from '../../components/OfferForm/OfferForm.vue';
 import SearchBar from '../../components/SearchBar/SearchBar.vue';
 
+// dynamic page size
+const PAGE_SIZE = Math.floor(window.innerHeight * 0.6 / 68);
+
 
 export default defineComponent({
     components: {
@@ -68,13 +71,14 @@ export default defineComponent({
     watch: {
         searchQuery: {
             handler: function() {
-                this.search(this.page, 8);
+                this.search(this.page, PAGE_SIZE);
             },
             immediate: true,
         }
     },
     created() {
-        this.getOffers()
+        this.getPage(this.page, PAGE_SIZE);
+        console.log(window.innerWidth, window.innerHeight)
 
     },
     methods: {
@@ -90,7 +94,8 @@ export default defineComponent({
             })
         },
         handlePageChange(page: number) {
-            const PAGE_SIZE = 8;
+            console.log()
+            
             this.page = page;
             if(this.searchQuery !== "") {
                 this.search(page, PAGE_SIZE);
