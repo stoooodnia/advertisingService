@@ -30,7 +30,7 @@ export default defineComponent({
             /**
              * The data of the offer 
              */
-            type: Object as PropType<OfferData>,
+            type: Object as PropType<OfferResponse>,
             required: true
         }
     },

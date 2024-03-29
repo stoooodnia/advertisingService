@@ -15,8 +15,8 @@
                     <input v-model="form.lastname" id="lastname" type="text" placeholder="Wpisz swoję nazwisko" :class="errors.lastname ? 'border-red-500 border-2 animate-pulse ' : 'border-my-light-gray'" class="h-[44px] border border-my-light-gray rounded-xl p-3  placeholder-my-gray text-[14px] focus:animate-none outline-my-black">
                 </div>
                 <div class="w-full flex flex-col gap-2 relative">
-                    <label class="text-[#565656] text-[14px] font-semibold " for="specOption">Specjalizacja</label>
-                    <Select v-model="form.specOption" class="w-full" id="specOption" :error="errors.specOption" />
+                    <label class="text-[#565656] text-[14px] font-semibold " for="specializationId">Specjalizacja</label>
+                    <Select v-model="form.specializationId" class="w-full" id="specializationId" :error="errors.specializationId" />
                 </div>
             </div>
             <div class="flex flex-col gap-2 relative">
@@ -36,6 +36,7 @@
 import { defineComponent, PropType } from 'vue'
 import Button from '../../components/Button/Button.vue'
 import Select from './Select.vue'
+import offersService from '../../services/offersService'
 
 export default defineComponent({
     components: {
@@ -44,7 +45,7 @@ export default defineComponent({
     },
     props: {
         editOfferData: {
-            type: Object as PropType<OfferData>,
+            type: Object as PropType<OfferResponse>,
             required: false,
         },
         show: {
@@ -58,13 +59,13 @@ export default defineComponent({
                 firstname: this.editOfferData?.firstname || "",
                 lastname: this.editOfferData?.lastname || "",
                 content: this.editOfferData?.content || "",
-                specOption: this.editOfferData?.specialization.id.toString() || "",
+                specializationId: this.editOfferData?.specialization.id.toString() || "",
             },
             errors: {
                 firstname: false,
                 lastname: false,
                 content: false,
-                specOption: false,
+                specializationId: false,
             }
         }
     },
@@ -106,16 +107,33 @@ export default defineComponent({
                 this.close()
                 return
             }
-            console.log(JSON.stringify(this.form))
+            this.post().then(() => {
+                this.clearForm()
+                this.close()
+            })
             this.clearForm()
             this.close()
+        },
+        post() {
+
+            const data = {
+                firstname: this.form.firstname,
+                lastname: this.form.lastname,
+                content: this.form.content,
+                specializationId: parseInt(this.form.specializationId),
+                createdAt: new Date().toISOString()
+            }   
+
+            return offersService.postOffer(data).then((response) => {
+                console.log(response.data)
+            })
         },
         clearForm() {
             this.form = {
                 firstname: "",
                 lastname: "",
                 content: "",
-                specOption: "",
+                specializationId: "",
             }
         },
         clearErrors() {
@@ -123,7 +141,7 @@ export default defineComponent({
                 firstname: false,
                 lastname: false,
                 content: false,
-                specOption: false,
+                specializationId: false,
             }
         }
     }

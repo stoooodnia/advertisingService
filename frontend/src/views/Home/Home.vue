@@ -55,7 +55,7 @@ export default defineComponent({
                     this.showAddOffer = true;
                 },
             },
-            offers: [] as OfferData[],
+            offers: [] as OfferResponse[],
             page: 1,
             totalPages: 0,
         }
