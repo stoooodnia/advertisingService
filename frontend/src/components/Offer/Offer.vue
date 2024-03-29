@@ -10,7 +10,7 @@
         </ul>
         <div class="flex ">
             <Button class="hover:text-black/50 p-[20px] " size="iconOnly" icon="fa-solid fa-pen-to-square" :action=editOffer />
-            <Button class="text-red-500 hover:text-red-500/50" size="iconOnly" icon="fa-solid fa-trash-can" :action="() => {console.log('Delete offer')}" />
+            <Button class="text-red-500 hover:text-red-500/50" size="iconOnly" icon="fa-solid fa-trash-can" :action="deleteOffer" />
         </div>
     </div>
 </template>
@@ -19,6 +19,7 @@
 import { PropType, defineComponent } from 'vue'
 import Button from '../Button/Button.vue'
 import OfferForm from '../OfferForm/OfferForm.vue'
+import offersService from '../../services/offersService'
 
 export default defineComponent({
     components: {
@@ -46,7 +47,10 @@ export default defineComponent({
           this.showEditOffer = true
         },
         deleteOffer() {
-            console.log('Delete offer')
+            offersService.deleteOffer(this.offerData.id).then(() => {
+                console.log('Offer deleted')
+                location.reload()
+            })
         }
     }
 })

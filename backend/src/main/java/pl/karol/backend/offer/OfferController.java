@@ -26,7 +26,7 @@ public class OfferController {
             @RequestBody OfferRequest offerRequest) {
         return ResponseEntity.ok(offerService.createOffer(offerRequest));
     }
-
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<SingleOfferDto> updateOffer(
             @PathVariable Integer id,
@@ -35,6 +35,7 @@ public class OfferController {
         return ResponseEntity.ok(offerService.updateOffer(id, offerRequest));
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOffer(
             @PathVariable Integer id) {

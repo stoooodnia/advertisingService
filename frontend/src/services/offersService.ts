@@ -20,4 +20,7 @@ export default {
   editOffer(offer: OfferRequest, id: number) {
     return apiClient.put(`offers/${id}`, offer);
   },
+  deleteOffer(id: number) {
+    return apiClient.delete(`offers/${id}`);
+  },
 };
