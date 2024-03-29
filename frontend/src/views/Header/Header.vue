@@ -1,7 +1,7 @@
 <template>
     <header class="flex items-center justify-between w-full py-[24px]">
         <h1 class="font-semibold text-3xl">{{ headerLabel }}</h1>
-        <Button :label="buttonData.label" :icon="buttonData.icon" :color="buttonData.color" :size="buttonData.size" :action="buttonData.action"/>
+        <Button class="p-[20px] rounded-lg" :label="buttonData.label" :icon="buttonData.icon" :color="buttonData.color" :size="buttonData.size" :action="buttonData.action"/>
     </header>
 </template>
 

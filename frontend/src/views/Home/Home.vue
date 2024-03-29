@@ -1,7 +1,5 @@
 <template>
-    <Modal :show="showAddOffer" @update:show="showAddOffer = $event">
-        <AddOfferForm />
-    </Modal>
+    <AddOfferForm :show="showAddOffer" @update:show="showAddOffer = $event"/>
     <div class="flex w-screen h-screen overflow-y-hidden">
         <Navbar :route="$route" />
         <div class="w-full flex flex-col items-center px-[60px]">
@@ -33,12 +31,10 @@ import Offer from '../../components/Offer/Offer.vue';
 import Pagination from '../../components/Pagination/Pagination.vue';
 // import generateOffers from '../../components/Offer/OffersGenerator';
 import offersService from '../../services/offersService';
-import Modal from '../../components/Modal/Modal.vue';
-import AddOfferForm from '../../components/AddOfferForm/AddOfferForm.vue';
+import AddOfferForm from '../AddOfferForm/AddOfferForm.vue';
 
 export default defineComponent({
     components: {
-        Modal,
         Navbar,
         Header,
         Offer,
@@ -70,9 +66,9 @@ export default defineComponent({
     },
     methods: {
         handlePageChange(page: number) {
-            const SIZE = 8;
+            const PAGE_SIZE = 8;
             this.page = page;
-            this.getPage(page, SIZE);
+            this.getPage(page, PAGE_SIZE);
             
         },
         getOffers() {
@@ -93,4 +89,4 @@ export default defineComponent({
         },
     },
 })
-</script>
+</script>../AddOfferForm/AddOfferForm.vue

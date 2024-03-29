@@ -8,7 +8,7 @@
             <li class="w-[140px] truncate">{{ offerDate }}</li>
         </ul>
         <div class="flex ">
-            <Button class="hover:text-black/50 " size="iconOnly" icon="fa-solid fa-pen-to-square" :action="() => {console.log('Edit offer')}" />
+            <Button class="hover:text-black/50 p-[20px] " size="iconOnly" icon="fa-solid fa-pen-to-square" :action="() => {console.log('Edit offer')}" />
             <Button class="text-red-500 hover:text-red-500/50" size="iconOnly" icon="fa-solid fa-trash-can" :action="() => {console.log('Delete offer')}" />
         </div>
     </div>
