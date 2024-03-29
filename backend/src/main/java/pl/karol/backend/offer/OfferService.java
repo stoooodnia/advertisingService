@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.karol.backend.specialization.SpecializationRepository;
 
@@ -18,7 +19,7 @@ public class OfferService {
     private final SpecializationRepository specializationRepository;
 
     public OfferResponse getOffers(int page, int size) {
-        Pageable paging = PageRequest.of(page, size);
+        Pageable paging = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<Offer> pageResult = offerRepository.findAll(paging);
         List<Offer> listOfOffers =  pageResult.getContent();
         List<SingleOfferDto> content = listOfOffers.stream().map(this::mapToDto).toList();

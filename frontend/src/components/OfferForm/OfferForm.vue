@@ -108,11 +108,8 @@ export default defineComponent({
                 return
             }
             this.post().then(() => {
-                this.clearForm()
-                this.close()
+                location.reload()
             })
-            this.clearForm()
-            this.close()
         },
         post() {
 
