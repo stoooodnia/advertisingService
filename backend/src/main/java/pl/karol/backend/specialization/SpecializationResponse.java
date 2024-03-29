@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SpecializationResponse {
-    private List<SpecializationDto> content;
+    private List<SingleSpecializationDto> content;
 }

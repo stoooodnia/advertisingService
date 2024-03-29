@@ -14,14 +14,20 @@ public class SpecializationService {
     public SpecializationResponse getSpecializations() {
         // todo: think about pagination
         List<Specialization> specializations = specializationRepository.findAll();
-        List<SpecializationDto> content = specializations.stream().map(this::mapToDto).toList();
+        List<SingleSpecializationDto> content = specializations.stream().map(this::mapToDto).toList();
         return SpecializationResponse.builder()
                 .content(content)
                 .build();
     }
+    public SingleSpecializationDto addSpecialization(SpecializationRequest specializationRequest) {
+        Specialization specialization = Specialization.builder()
+                .label(specializationRequest.getLabel())
+                .build();
+        return mapToDto(specializationRepository.save(specialization));
+    }
 
-    private SpecializationDto mapToDto(Specialization specialization) {
-        return SpecializationDto.builder()
+    private SingleSpecializationDto mapToDto(Specialization specialization) {
+        return SingleSpecializationDto.builder()
                 .id(specialization.getId())
                 .label(specialization.getLabel())
                 .build();

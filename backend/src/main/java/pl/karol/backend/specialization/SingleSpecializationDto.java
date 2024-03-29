@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SpecializationDto {
+public class SingleSpecializationDto {
         private Integer id;
         private String label;
-
 }
