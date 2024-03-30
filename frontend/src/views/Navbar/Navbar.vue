@@ -36,9 +36,6 @@
 </template>
 
 <script lang="ts">
-
-// TODO: set active state of the RouteLink component
-
 import { defineComponent } from 'vue'
 import RouteLink from '../../components/RouteLink/RouteLink.vue'
 

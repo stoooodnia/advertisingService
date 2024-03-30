@@ -3,7 +3,6 @@ package pl.karol.backend.auth;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,25 +18,29 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public AuthenticationResponse register(
             @RequestBody RegisterRequest request,
             HttpServletResponse response
     ) {
         try
         {
-            return ResponseEntity.ok(authenticationService.register(request, response));
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            return authenticationService.register(request, response);
         }
         catch (Exception e)
         {
-            return ResponseEntity.badRequest().build();
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+            return null;
         }
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
+    public AuthenticationResponse authenticate(
+            @RequestBody AuthenticationRequest request,
+            HttpServletResponse response
     ) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+        response.setStatus(HttpServletResponse.SC_OK);
+        return authenticationService.authenticate(request, response);
     }
 
     @PostMapping("/refresh")
@@ -45,6 +48,7 @@ public class AuthenticationController {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
+        response.setStatus(HttpServletResponse.SC_OK);
         authenticationService.refresh(request, response);
     }
 

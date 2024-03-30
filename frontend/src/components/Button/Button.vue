@@ -1,6 +1,6 @@
 <template>
     <button @click="action"  class="h-[44px] w-fit flex items-center justify-center gap-[10px] transition-colors duration-300" :class="style">
-        <font-awesome-icon v-if="iconActive" :icon="icon" class="w-6 h-6" />
+        <font-awesome-icon v-if="iconActive" :icon="icon" class="w-5 h-5" />
         <span v-if="labelActive" class=""> {{ label }}</span>
     </button>
 </template>

@@ -4,6 +4,9 @@ import "./style.css";
 import App from "./App.vue";
 import router from "./router";
 
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -15,6 +18,7 @@ import {
   faX,
   faPlus,
   faChevronDown,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -25,10 +29,15 @@ library.add(
   faMagnifyingGlass,
   faX,
   faPlus,
-  faChevronDown
+  faChevronDown,
+  faUser
 );
 
 const app = createApp(App);
+
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+app.use(pinia);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(router);

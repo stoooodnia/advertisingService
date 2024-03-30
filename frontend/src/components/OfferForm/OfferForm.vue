@@ -3,7 +3,7 @@
         <div class="flex flex-col gap-8 bg-white rounded-lg w-[574px] h-[632px] p-6 relative">
             <header class="flex justify-between">
                 <h5 class="text-2xl font-semibold">Dodaj ogłoszenie</h5>
-                <Button class="p-[10px] rounded-xl" size="iconOnly" icon="fa-solid fa-x" color="black" :action="close"/>
+                <Button class="p-[12px] rounded-xl" size="iconOnly" icon="fa-solid fa-x" color="black" :action="close"/>
             </header>
             <div class="flex flex-col gap-4 relative">
                 <div class="w-full flex flex-col gap-2 relative">

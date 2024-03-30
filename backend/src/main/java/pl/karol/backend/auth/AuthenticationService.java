@@ -1,6 +1,5 @@
 package pl.karol.backend.auth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -64,15 +63,14 @@ public class AuthenticationService {
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
-
         return AuthenticationResponse.builder()
-                .token(token)
-                .refreshToken(refreshToken)
+                .user(user)
                 .build();
+
     }
 
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -84,9 +82,22 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, token);
+        ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(REFRESH_EXPIRATION_TIME)
+                .build();
+        ResponseCookie authCookie = ResponseCookie.from("authToken", token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(EXPIRATION_TIME)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
         return AuthenticationResponse.builder()
-                .token(token)
-                .refreshToken(refreshToken)
+                .user(user)
                 .build();
     }
 
@@ -107,14 +118,15 @@ public class AuthenticationService {
             var user = userRepository.findByEmail(userEmail).orElseThrow();
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var token = jwtService.generateToken(user);
-                response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
                 revokeAllUserTokens(user);
                 saveUserToken(user, token);
-                var authResponse = AuthenticationResponse.builder()
-                        .token(jwtService.generateToken(user))
-                        .refreshToken(refreshToken) // optionally new refresh token (refresh token rotation)
+                ResponseCookie authCookie = ResponseCookie.from("authToken", token)
+                        .httpOnly(true)
+                        .secure(true)
+                        .path("/")
+                        .maxAge(EXPIRATION_TIME)
                         .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+                response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
             }
     }
 
@@ -128,6 +140,7 @@ public class AuthenticationService {
                 .build();
         tokenRepository.save(token);
         }
+
     private void revokeAllUserTokens(User user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty())
