@@ -11,12 +11,13 @@ import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
 
-
 @Service
 public class JwtService {
+    // 10 minutes
 
     private final String SECRET_KEY = System.getenv("SECRET_KEY");
-
+    private final Integer EXPIRATION_TIME = Integer.valueOf(System.getenv("EXPIRATION_TIME"));
+    private final Integer REFRESH_EXPIRATION_TIME = Integer.valueOf(System.getenv("REFRESH_EXPIRATION_TIME"));
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject); // subject should be username (email)
     }
@@ -27,8 +28,7 @@ public class JwtService {
     }
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
 
-        // 10 minutes
-        final int expirationTime = 1000 * 60 * 10;
+
 
         return Jwts.builder()
                 .claims()
@@ -36,21 +36,17 @@ public class JwtService {
                 .and()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expirationTime))
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignInKey())
                 .compact();
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
 
-        // 7 days
-        final int refreshExpirationTime = 1000 * 60 * 60 * 24 * 7;
-
-
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + refreshExpirationTime))
+                .expiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION_TIME))
                 .signWith(getSignInKey())
                 .compact();
     }

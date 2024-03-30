@@ -1,6 +1,7 @@
 package pl.karol.backend.config;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,18 +27,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull jakarta.servlet.http.HttpServletResponse response,
             @NonNull jakarta.servlet.FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        final String token;
-        final String username;
-        // check for token
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+
+        String token = null;
+        String username;
+
+        if (request.getCookies() != null) {
+            for (Cookie cookie: request.getCookies()) {
+                if(cookie.getName().equals("authToken")){
+                    token = cookie.getValue();
+                }
+            }
+        }
+        if (token == null){
             filterChain.doFilter(request, response);
             return;
         }
-        // get token
-        token = authHeader.substring(7);
         username = jwtService.extractUsername(token);
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (username != null) {
             // set authentication
             final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (jwtService.isTokenValid(token, userDetails)) {

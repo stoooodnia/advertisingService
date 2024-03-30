@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,8 +29,15 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
 
+    private final Integer EXPIRATION_TIME = Integer.valueOf(System.getenv("EXPIRATION_TIME"));
+    private final Integer REFRESH_EXPIRATION_TIME = Integer.valueOf(System.getenv("REFRESH_EXPIRATION_TIME"));
 
-    public AuthenticationResponse register(RegisterRequest request) {
+
+    public AuthenticationResponse register(RegisterRequest request, HttpServletResponse response) throws Exception {
+
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new Exception();
+        }
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -41,6 +49,22 @@ public class AuthenticationService {
         var token = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(user, token);
+        // Cookies
+        ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(REFRESH_EXPIRATION_TIME)
+                .build();
+        ResponseCookie authCookie = ResponseCookie.from("authToken", token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(EXPIRATION_TIME)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
+
         return AuthenticationResponse.builder()
                 .token(token)
                 .refreshToken(refreshToken)
