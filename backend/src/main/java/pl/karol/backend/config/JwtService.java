@@ -15,7 +15,8 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = System.getenv("SECRET_KEY");
+    private final String SECRET_KEY = System.getenv("SECRET_KEY");
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject); // subject should be username (email)
     }
@@ -25,7 +26,10 @@ public class JwtService {
         return generateToken(Map.of(), userDetails);
     }
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        final int expirationTime = 1000 * 60 * 10; // 10 minutes
+
+        // 10 minutes
+        final int expirationTime = 1000 * 60 * 10;
+
         return Jwts.builder()
                 .claims()
                 .add(extraClaims)
@@ -33,6 +37,20 @@ public class JwtService {
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(getSignInKey())
+                .compact();
+    }
+
+    public String generateRefreshToken(UserDetails userDetails) {
+
+        // 7 days
+        final int refreshExpirationTime = 1000 * 60 * 60 * 24 * 7;
+
+
+        return Jwts.builder()
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + refreshExpirationTime))
                 .signWith(getSignInKey())
                 .compact();
     }

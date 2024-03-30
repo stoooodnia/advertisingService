@@ -11,6 +11,11 @@ import java.util.List;
 @Repository
 public interface OfferRepository extends JpaRepository<Offer, Integer> {
 
-    @Query("SELECT o FROM Offer o WHERE o.firstname LIKE %?1% OR o.lastname LIKE %?1% OR o.specialization.label LIKE %?1%")
+    @Query("""
+    SELECT o FROM Offer o 
+    WHERE o.firstname LIKE %?1% 
+    OR o.lastname LIKE %?1% 
+    OR o.specialization.label LIKE %?1%
+    """)
     Page<Offer> findByFirstnameOrLastnameOrSpecializationContaining(String search, Pageable paging);
 }

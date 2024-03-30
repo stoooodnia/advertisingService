@@ -1,14 +1,22 @@
 package pl.karol.backend.auth;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.karol.backend.config.JwtService;
+import pl.karol.backend.token.Token;
+import pl.karol.backend.token.TokenRepository;
 import pl.karol.backend.user.Role;
 import pl.karol.backend.user.User;
 import pl.karol.backend.user.UserRepository;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +26,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final TokenRepository tokenRepository;
 
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -30,10 +39,14 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
         var token = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+        saveUserToken(user, token);
         return AuthenticationResponse.builder()
                 .token(token)
+                .refreshToken(refreshToken)
                 .build();
     }
+
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -42,11 +55,63 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        // todo handle exception
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         var token = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, token);
         return AuthenticationResponse.builder()
                 .token(token)
+                .refreshToken(refreshToken)
                 .build();
+    }
+
+
+
+    public void refresh(
+            HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String refreshToken;
+        final String userEmail;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
+        refreshToken = authHeader.substring(7);
+        userEmail = jwtService.extractUsername(refreshToken);
+        if (userEmail != null) {
+            var user = userRepository.findByEmail(userEmail).orElseThrow();
+            if (jwtService.isTokenValid(refreshToken, user)) {
+                var token = jwtService.generateToken(user);
+                response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+                revokeAllUserTokens(user);
+                saveUserToken(user, token);
+                var authResponse = AuthenticationResponse.builder()
+                        .token(jwtService.generateToken(user))
+                        .refreshToken(refreshToken) // optionally new refresh token (refresh token rotation)
+                        .build();
+                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+            }
+    }
+
+    }
+    private void saveUserToken(User user, String jwtToken) {
+        var token = Token.builder()
+                .user(user)
+                .token(jwtToken)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
+        }
+    private void revokeAllUserTokens(User user) {
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        if (validUserTokens.isEmpty())
+            return;
+        validUserTokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
     }
 }
