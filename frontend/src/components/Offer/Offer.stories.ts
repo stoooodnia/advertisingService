@@ -30,7 +30,10 @@ export const Example: Story = {
       id: 1,
       firstname: "John",
       lastname: "Doe",
-      specialization: "Software Developer",
+      specialization: {
+        id: 1,
+        label: "Software Developer",
+      },
       content: "Lorem ipsum dolor sit amet",
       createdAt: "2021-01-01",
     },

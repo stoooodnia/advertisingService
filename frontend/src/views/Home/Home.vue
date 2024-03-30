@@ -3,7 +3,7 @@
     <div class="flex w-screen h-screen overflow-y-hidden">
         <Navbar :route="$route" />
         <div class="w-full flex flex-col items-center px-[60px]">
-            <Header class="h-1/6 " :headerLabel="headerLabel" :button-data="buttonData" />
+            <Header :headerLabel="headerLabel" :button-data="buttonData" />
             <section class="rounded-lg border-[1px] border-my-light-gray bg-white w-full"> 
                 <SearchBar @search="searchQuery = $event"/>
                 <div class="h-[47px] w-full px-[16px] flex items-center border-b-[1px] border-my-light-gray">
@@ -78,12 +78,10 @@ export default defineComponent({
     },
     created() {
         this.getPage(this.page, PAGE_SIZE);
-        console.log(window.innerWidth, window.innerHeight)
 
     },
     methods: {
         search(page: number, size: number) {
-            console.log(this.searchQuery, this.offers) 
             if (this.searchQuery === "") {
                 return;
             }
@@ -94,8 +92,6 @@ export default defineComponent({
             })
         },
         handlePageChange(page: number) {
-            console.log()
-            
             this.page = page;
             if(this.searchQuery !== "") {
                 this.search(page, PAGE_SIZE);
@@ -114,7 +110,7 @@ export default defineComponent({
         },
         getPage(page: number, size: number) {
             offersService.getOffers(page-1, size).then((response) => {
-                console.log(response.data);
+
                 const { content, totalPages } = response.data;
                 this.offers = content;
                 this.totalPages = totalPages;

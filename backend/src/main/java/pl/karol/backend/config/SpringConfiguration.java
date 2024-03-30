@@ -11,6 +11,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOriginPatterns("*");
+                .allowedOriginPatterns("*")
+                .allowCredentials(true);
     }
 }

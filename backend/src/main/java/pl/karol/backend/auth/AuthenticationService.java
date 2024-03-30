@@ -1,5 +1,6 @@
 package pl.karol.backend.auth;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -50,14 +51,14 @@ public class AuthenticationService {
         saveUserToken(user, token);
         // Cookies
         ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
-                .httpOnly(true)
-                .secure(true)
+                .httpOnly(false)
+                .secure(false)
                 .path("/")
                 .maxAge(REFRESH_EXPIRATION_TIME)
                 .build();
         ResponseCookie authCookie = ResponseCookie.from("authToken", token)
-                .httpOnly(true)
-                .secure(true)
+                .httpOnly(false)
+                .secure(false)
                 .path("/")
                 .maxAge(EXPIRATION_TIME)
                 .build();
@@ -84,16 +85,17 @@ public class AuthenticationService {
         saveUserToken(user, token);
         ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
                 .path("/")
                 .maxAge(REFRESH_EXPIRATION_TIME)
                 .build();
         ResponseCookie authCookie = ResponseCookie.from("authToken", token)
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
                 .path("/")
                 .maxAge(EXPIRATION_TIME)
                 .build();
+
         response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
         return AuthenticationResponse.builder()
@@ -106,13 +108,20 @@ public class AuthenticationService {
     public void refresh(
             HttpServletRequest request, HttpServletResponse response
     ) throws IOException {
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String userEmail;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        String refreshToken = null;
+        String userEmail;
+
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("refreshToken")) {
+                    refreshToken = cookie.getValue();
+                }
+            }
+        }
+        if (refreshToken == null) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-        refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
         if (userEmail != null) {
             var user = userRepository.findByEmail(userEmail).orElseThrow();
@@ -122,7 +131,7 @@ public class AuthenticationService {
                 saveUserToken(user, token);
                 ResponseCookie authCookie = ResponseCookie.from("authToken", token)
                         .httpOnly(true)
-                        .secure(true)
+                        .secure(false)
                         .path("/")
                         .maxAge(EXPIRATION_TIME)
                         .build();

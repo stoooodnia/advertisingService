@@ -1,4 +1,4 @@
-import { authGuard } from "@/guards/authGuard";
+import { authGuard } from "../guards/authGuard";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({

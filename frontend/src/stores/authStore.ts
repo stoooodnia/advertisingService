@@ -7,15 +7,15 @@ export const useAuthStore = defineStore({
   id: "auth",
   state: () => {
     return {
-      user: {},
+      user: {} as userData,
     };
   },
   actions: {
-    setUser(user) {
+    setUser(user: userData) {
       this.user = user;
     },
     logout() {
-      this.user = {};
+      this.user = {} as userData;
     },
     getUser() {
       return this.user;

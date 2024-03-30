@@ -1,6 +1,7 @@
 package pl.karol.backend.config;
 
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class LogoutService implements LogoutHandler {
             HttpServletResponse response,
             Authentication authentication
     ) {
-        System.out.println("LOGOUT");
+
         final String authHeader = request.getHeader("Authorization");
         final String token;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -30,14 +31,21 @@ public class LogoutService implements LogoutHandler {
         }
         token = authHeader.substring(7);
         var storedToken = tokenRepository.findByToken(token).orElse(null);
-        System.out.println("AAAA" + storedToken);
         if (storedToken != null) {
 //            tokenRepository.delete(storedToken);
-            System.out.println("USUWAM");
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("authToken")) {
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+                if (cookie.getName().equals("refreshToken")) {
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
             storedToken.setExpired(true);
             storedToken.setRevoked(true);
             tokenRepository.save(storedToken);
-
             SecurityContextHolder.clearContext();
         }
 

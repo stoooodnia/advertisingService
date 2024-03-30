@@ -23,6 +23,16 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/swagger-ui.html",
             "api/auth/**",
+            "/",
+            "/login",
+            "/register",
+            "/specializations"
+    };
+
+    private static final String[] BLACK_LIST_URLS = {
+            "/api/offers/**",
+            "/api/offers",
+            "/api/specializations"
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -31,18 +41,13 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors((cors) -> cors.disable())
-            .csrf((csrf) -> csrf.disable())
+        http.csrf((csrf) -> csrf.disable())
             .authorizeHttpRequests(
                     (authorizeRequests) -> authorizeRequests
-                            .requestMatchers(WHITE_LIST_URLS)
-                            .permitAll()
-//                            .requestMatchers(HttpMethod.GET, "/api/offers/**", "/api/offers")
-//                            .permitAll()
-                            .requestMatchers(HttpMethod.GET, "/api/specializations")
-                            .permitAll()
-                            .anyRequest()
+                            .requestMatchers(BLACK_LIST_URLS)
                             .authenticated()
+                            .anyRequest()
+                            .permitAll()
             )
             .sessionManagement((sessionManagement) -> sessionManagement
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
