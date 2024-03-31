@@ -29,8 +29,8 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
 
-    private final Integer EXPIRATION_TIME = Integer.valueOf(System.getenv("EXPIRATION_TIME"));
-    private final Integer REFRESH_EXPIRATION_TIME = Integer.valueOf(System.getenv("REFRESH_EXPIRATION_TIME"));
+    private final Integer EXPIRATION_TIME = 600000;
+    private final Integer REFRESH_EXPIRATION_TIME = 864000000;
 
 
     public AuthenticationResponse register(RegisterRequest request, HttpServletResponse response) throws Exception {

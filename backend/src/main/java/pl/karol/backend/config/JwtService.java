@@ -15,9 +15,10 @@ import java.util.function.Function;
 public class JwtService {
     // 10 minutes
 
-    private final String SECRET_KEY = System.getenv("SECRET_KEY");
-    private final Integer EXPIRATION_TIME = Integer.valueOf(System.getenv("EXPIRATION_TIME"));
-    private final Integer REFRESH_EXPIRATION_TIME = Integer.valueOf(System.getenv("REFRESH_EXPIRATION_TIME"));
+    // env for production
+    private final String SECRET_KEY = "sef/E7gtgaAqeWgWT+aFOHBxQ699wCL0oB656te6WmnkrIVag3Z7OhVmmhXDeAZr";
+    private final Integer EXPIRATION_TIME = 600000;
+    private final Integer REFRESH_EXPIRATION_TIME = 864000000;
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject); // subject should be username (email)
     }
