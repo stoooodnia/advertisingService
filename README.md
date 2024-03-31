@@ -14,7 +14,10 @@ uruchomienie storybooka
 uruchomienie bazy danych
 `docker-compose up` (flaga `-d` aby uruchomić w tle)
 
-do uruchomienia backendu należy uzupełnić plik zmienne środowiskowe tak jak podano w przykładzie w kodzie (.example.env)
+do uruchomienia backendu należy uzupełnić zmienne w pliku application.properties w podany sposób
+`spring.datasource.url=jdbc:postgresql://localhost:5432/postgres`
+`spring.datasource.username=postgres`
+`spring.datasource.password=example`
 
 dev url aplikacji
 `http://localhost:8081`
