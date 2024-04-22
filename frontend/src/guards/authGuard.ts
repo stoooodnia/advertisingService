@@ -10,6 +10,7 @@ export const authGuard = (
 ) => {
   const store = useAuthStore();
   const user = store.getUser();
+
   if (user.id === undefined) {
     next({ name: "login" });
   } else {

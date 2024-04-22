@@ -1,14 +1,14 @@
 <template>
     <OfferForm :show="showEditOffer" @update:show="showEditOffer = $event" :editOfferData="offerData"/>
-    <div class="flex items-center justify-between h-[68px] w-full border-b-[1px] border-my-light-gray px-[16px] hover:bg-my-light-gray transition-colors ">
-        <ul @click="toggleDetails" class="flex flex-row gap-[65px] ">
+    <div  class="flex items-center justify-between h-[68px] w-full border-b-[1px] border-my-light-gray px-[16px] hover:bg-my-light-gray transition-colors ">
+        <ul @click="toggleDetails" class="flex flex-row gap-[65px] hover:cursor-pointer">
             <li class="w-[140px] truncate">{{ offerData.firstname }}</li>
             <li class="w-[140px] truncate">{{ offerData.lastname }}</li>
             <li class="w-[140px] truncate">{{ offerData.specialization.label }}</li>
             <li class="w-[140px] truncate">{{ offerData.content }}</li>
             <li class="w-[140px] truncate">{{ offerDate }}</li>
         </ul>
-        <div class="flex ">
+        <div class="flex">
             <Button class="hover:text-black/50 p-[20px] " size="iconOnly" icon="fa-solid fa-pen-to-square" :action=editOffer />
             <Button class="text-red-500 hover:text-red-500/50" size="iconOnly" icon="fa-solid fa-trash-can" :action="deleteOffer" />
         </div>
@@ -23,8 +23,8 @@
                 <p class="text-lg text-gray-800 mb-4 break-words">{{ offerData.content }}</p>
                 <p class="text-sm text-gray-600 mb-4">{{ offerDate }}</p>
                 <div class="flex justify-end">
-                <Button class="mr-2" size="iconOnly" icon="fa-solid fa-pen-to-square" :action="editOffer" />
-                <Button class="text-red-500" size="iconOnly" icon="fa-solid fa-trash-can" :action="deleteOffer" />
+                <Button class="mr-2 hover:text-black/50" size="iconOnly" icon="fa-solid fa-pen-to-square" :action="editOffer" />
+                <Button class="text-red-500 hover:text-red-500/50" size="iconOnly" icon="fa-solid fa-trash-can" :action="deleteOffer" />
             </div>
         </div>
     </div>
