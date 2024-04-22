@@ -8,7 +8,7 @@ build/
 .DS_Store
 
 ### Environment
-.env
+src/main/resources/secrets.properties
 
 ### Frontend ###
 static/

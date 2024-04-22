@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.karol.backend.SecretConfig;
 import pl.karol.backend.config.JwtService;
 import pl.karol.backend.token.Token;
 import pl.karol.backend.token.TokenRepository;
@@ -28,10 +29,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
-
-    private final Integer EXPIRATION_TIME = 600000;
-    private final Integer REFRESH_EXPIRATION_TIME = 864000000;
-
+    private final SecretConfig secretConfig;
 
     public AuthenticationResponse register(RegisterRequest request, HttpServletResponse response) throws Exception {
 
@@ -54,13 +52,13 @@ public class AuthenticationService {
                 .httpOnly(false)
                 .secure(false)
                 .path("/")
-                .maxAge(REFRESH_EXPIRATION_TIME)
+                .maxAge(secretConfig.refreshExpirationTime())
                 .build();
         ResponseCookie authCookie = ResponseCookie.from("authToken", token)
                 .httpOnly(false)
                 .secure(false)
                 .path("/")
-                .maxAge(EXPIRATION_TIME)
+                .maxAge(secretConfig.expirationTime())
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
@@ -87,13 +85,13 @@ public class AuthenticationService {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .maxAge(REFRESH_EXPIRATION_TIME)
+                .maxAge(secretConfig.refreshExpirationTime())
                 .build();
         ResponseCookie authCookie = ResponseCookie.from("authToken", token)
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .maxAge(EXPIRATION_TIME)
+                .maxAge(secretConfig.expirationTime())
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
@@ -133,7 +131,7 @@ public class AuthenticationService {
                         .httpOnly(true)
                         .secure(false)
                         .path("/")
-                        .maxAge(EXPIRATION_TIME)
+                        .maxAge(secretConfig.expirationTime())
                         .build();
                 response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
             }
