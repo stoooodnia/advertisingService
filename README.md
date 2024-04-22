@@ -1,6 +1,4 @@
-# PROJEKT REKRUTACYJNY
-
-## SERWIS Z OFERTAMI
+# SERWIS Z OFERTAMI
 
 ### Uruchomienie projektu
 
